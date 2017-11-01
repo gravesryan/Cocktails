@@ -39,7 +39,6 @@ public class CocktailDetailActivity extends AppCompatActivity {
         cocktailIBA = (TextView)findViewById(R.id.cocktail_iba);
         cocktailDateModified = (TextView)findViewById(R.id.cocktail_date_modified);
 
-
         Cocktail cocktail = Parcels.unwrap(getIntent().getParcelableExtra(COCKTAIL_EXTRA_KEY));
         cocktailDetailName.setText(cocktail.getName());
         cocktailInstructions.setText(cocktail.getInstructions());
@@ -49,6 +48,7 @@ public class CocktailDetailActivity extends AppCompatActivity {
         cocktailIBA.setText(cocktail.getIba());
         cocktailDateModified.setText("\nDate Modified: " + cocktail.getDateModified());
 
+        String iba = cocktail.getIba();
 
         String ingredients = "Ingredients: \n";
         if (cocktail.getIngredient1().compareTo("") != 0) {

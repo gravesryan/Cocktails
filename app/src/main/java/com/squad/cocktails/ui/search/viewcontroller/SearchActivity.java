@@ -32,7 +32,7 @@ public class SearchActivity extends AppCompatActivity {
     private CocktailLookupAsyncTask lookupTask;
     private LinearLayoutManager linearLayoutManager;
     private CocktailSearchAdapter adapter;
-    private RecyclerView cocktailResultList;
+    //private RecyclerView cocktailResultList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,43 +41,46 @@ public class SearchActivity extends AppCompatActivity {
 
         searchEditText = (EditText)findViewById(R.id.search_edit_text);
         searchButton = (Button)findViewById(R.id.my_search_button);
-        cocktailResultList = (RecyclerView)findViewById(R.id.cocktail_result_list);
+        //cocktailResultList = (RecyclerView)findViewById(R.id.cocktail_result_list);
 
-        linearLayoutManager = new LinearLayoutManager(this);
+        //linearLayoutManager = new LinearLayoutManager(this);
 
-        cocktailResultList.setLayoutManager(linearLayoutManager);
+        //cocktailResultList.setLayoutManager(linearLayoutManager);
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                task = new CocktailSearchAsyncTask();
-                task.setCallbackListener(new CocktailSearchAsyncTask.OnCocktailFetchResponse() {
-                    @Override
-                    public void onCallback(CocktailList cocktailList) {
-                        adapter = new CocktailSearchAdapter(cocktailList.getCocktails());
-                        adapter.setCocktailItemClickListener(new CocktailSearchAdapter.CocktailItemClickListener() {
-                            @Override
-                            public void onCocktailItemClicked(final Cocktail selectedItem) {
-                                lookupTask = new CocktailLookupAsyncTask();
-                                lookupTask.setCallbackListener(new CocktailLookupAsyncTask.OnCocktailFetchResponse() {
-                                    @Override
-                                    public void onCallback(Cocktail cocktail) {
-                                        Intent navIntent = new Intent(SearchActivity.this, CocktailDetailActivity.class);
-                                        navIntent.putExtra(CocktailDetailActivity.COCKTAIL_EXTRA_KEY, Parcels.wrap(cocktail));
-                                        startActivity(navIntent);
-                                    }
-                                });
-                                lookupTask.execute(selectedItem.getCocktailId());
-//                                Intent navIntent = new Intent(SearchActivity.this, CocktailDetailActivity.class);
-//                                navIntent.putExtra(CocktailDetailActivity.COCKTAIL_EXTRA_KEY, Parcels.wrap(selectedItem));
-//                                startActivity(navIntent);
-                            }
-                        });
-                        cocktailResultList.setAdapter(adapter);
-                    }
-                });
-                String searchTerms = searchEditText.getText().toString();
-                task.execute(searchTerms);
+                Intent resultIntent = new Intent(SearchActivity.this, ResultActivity.class);
+                //resultIntent.putExtra(ResultActivity.RESULT_EXTRA_KEY, searchEditText.getText().toString());
+                startActivity(resultIntent);
+//                task = new CocktailSearchAsyncTask();
+//                task.setCallbackListener(new CocktailSearchAsyncTask.OnCocktailFetchResponse() {
+//                    @Override
+//                    public void onCallback(CocktailList cocktailList) {
+//                        adapter = new CocktailSearchAdapter(cocktailList.getCocktails());
+//                        adapter.setCocktailItemClickListener(new CocktailSearchAdapter.CocktailItemClickListener() {
+//                            @Override
+//                            public void onCocktailItemClicked(final Cocktail selectedItem) {
+//                                lookupTask = new CocktailLookupAsyncTask();
+//                                lookupTask.setCallbackListener(new CocktailLookupAsyncTask.OnCocktailFetchResponse() {
+//                                    @Override
+//                                    public void onCallback(Cocktail cocktail) {
+//                                        Intent navIntent = new Intent(SearchActivity.this, CocktailDetailActivity.class);
+//                                        navIntent.putExtra(CocktailDetailActivity.COCKTAIL_EXTRA_KEY, Parcels.wrap(cocktail));
+//                                        startActivity(navIntent);
+//                                    }
+//                                });
+//                                lookupTask.execute(selectedItem.getCocktailId());
+////                                Intent navIntent = new Intent(SearchActivity.this, CocktailDetailActivity.class);
+////                                navIntent.putExtra(CocktailDetailActivity.COCKTAIL_EXTRA_KEY, Parcels.wrap(selectedItem));
+////                                startActivity(navIntent);
+//                            }
+//                        });
+//                        cocktailResultList.setAdapter(adapter);
+//                    }
+//                });
+//                String searchTerms = searchEditText.getText().toString();
+//                task.execute(searchTerms);
             }
         });
     }
