@@ -67,4 +67,8 @@ public class CocktailSearchAsyncTask extends AsyncTask<String, String, CocktailL
         void onCallback(CocktailList cocktailList);
     }
 
+//    public interface OnCocktailFetchCocktail {
+//        void onCallback(Cocktail cocktail);
+//    }
+
 }

@@ -3,7 +3,6 @@ package com.squad.cocktails.network;
 import android.os.AsyncTask;
 
 import com.squad.cocktails.model.Cocktail;
-import com.squad.cocktails.model.CocktailList;
 import com.squad.cocktails.util.CocktailParser;
 import com.squareup.okhttp.HttpUrl;
 import com.squareup.okhttp.OkHttpClient;
@@ -16,19 +15,19 @@ import java.io.IOException;
  * Created by ryanc on 10/31/2017.
  */
 
-public class CocktailLookupAsyncTask extends AsyncTask<String, String, CocktailList> {
+public class CocktailLookupAsyncTask extends AsyncTask<String, String, Cocktail> {
     private final String apiKey = "1";
     private final String baseApiUrl = "https://www.thecocktaildb.com/api/json/v1/"
             + apiKey
             + "/lookup.php?i=";
-    private CocktailSearchAsyncTask.OnCocktailFetchResponse callbackListener;
+    private CocktailLookupAsyncTask.OnCocktailFetchResponse callbackListener;
 
-    public void setCallbackListener(CocktailSearchAsyncTask.OnCocktailFetchResponse callbackListener) {
+    public void setCallbackListener(CocktailLookupAsyncTask.OnCocktailFetchResponse callbackListener) {
         this.callbackListener = callbackListener;
     }
 
     @Override
-    protected CocktailList doInBackground(String... strings) {
+    protected Cocktail doInBackground(String... strings) {
         String searchParams = strings[0];
         OkHttpClient client = new OkHttpClient();
 
@@ -44,7 +43,10 @@ public class CocktailLookupAsyncTask extends AsyncTask<String, String, CocktailL
         try {
             response = client.newCall(request).execute();
             if (response != null) {
-                return CocktailParser.cocktailListFromJson(response.body().string());
+                return CocktailParser.cocktailListFromJson(response.body()
+                                                                   .string())
+                                                                   .getCocktails()
+                                                                   .get(0);
             }
         } catch (IOException e) {
             //do something
@@ -53,13 +55,13 @@ public class CocktailLookupAsyncTask extends AsyncTask<String, String, CocktailL
     }
 
     @Override
-    protected void onPostExecute(CocktailList cocktailList) {
-        super.onPostExecute(cocktailList);
-        callbackListener.onCallback(cocktailList);
+    protected void onPostExecute(Cocktail cocktail) {
+        super.onPostExecute(cocktail);
+        callbackListener.onCallback(cocktail);
     }
 
     public interface OnCocktailFetchResponse {
-        void onCallback(CocktailList cocktailList);
+        void onCallback(Cocktail cocktail);
     }
 
 }

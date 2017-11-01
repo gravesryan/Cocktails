@@ -14,6 +14,7 @@ import android.widget.EditText;
 import com.squad.cocktails.R;
 import com.squad.cocktails.model.Cocktail;
 import com.squad.cocktails.model.CocktailList;
+import com.squad.cocktails.network.CocktailLookupAsyncTask;
 import com.squad.cocktails.network.CocktailSearchAsyncTask;
 import com.squad.cocktails.ui.detail.viewcontroller.CocktailDetailActivity;
 import com.squad.cocktails.ui.search.adapter.CocktailSearchAdapter;
@@ -28,6 +29,7 @@ public class SearchActivity extends AppCompatActivity {
     private EditText searchEditText;
     private Button searchButton;
     private CocktailSearchAsyncTask task;
+    private CocktailLookupAsyncTask lookupTask;
     private LinearLayoutManager linearLayoutManager;
     private CocktailSearchAdapter adapter;
     private RecyclerView cocktailResultList;
@@ -55,11 +57,20 @@ public class SearchActivity extends AppCompatActivity {
                         adapter = new CocktailSearchAdapter(cocktailList.getCocktails());
                         adapter.setCocktailItemClickListener(new CocktailSearchAdapter.CocktailItemClickListener() {
                             @Override
-                            public void onCocktailItemClicked(Cocktail selectedItem) {
-
-                                Intent navIntent = new Intent(SearchActivity.this, CocktailDetailActivity.class);
-                                navIntent.putExtra(CocktailDetailActivity.COCKTAIL_EXTRA_KEY, Parcels.wrap(selectedItem));
-                                startActivity(navIntent);
+                            public void onCocktailItemClicked(final Cocktail selectedItem) {
+                                lookupTask = new CocktailLookupAsyncTask();
+                                lookupTask.setCallbackListener(new CocktailLookupAsyncTask.OnCocktailFetchResponse() {
+                                    @Override
+                                    public void onCallback(Cocktail cocktail) {
+                                        Intent navIntent = new Intent(SearchActivity.this, CocktailDetailActivity.class);
+                                        navIntent.putExtra(CocktailDetailActivity.COCKTAIL_EXTRA_KEY, Parcels.wrap(cocktail));
+                                        startActivity(navIntent);
+                                    }
+                                });
+                                lookupTask.execute(selectedItem.getCocktailId());
+//                                Intent navIntent = new Intent(SearchActivity.this, CocktailDetailActivity.class);
+//                                navIntent.putExtra(CocktailDetailActivity.COCKTAIL_EXTRA_KEY, Parcels.wrap(selectedItem));
+//                                startActivity(navIntent);
                             }
                         });
                         cocktailResultList.setAdapter(adapter);
