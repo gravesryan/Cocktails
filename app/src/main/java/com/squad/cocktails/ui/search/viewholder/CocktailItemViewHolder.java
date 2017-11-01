@@ -41,7 +41,7 @@ public class CocktailItemViewHolder extends RecyclerView.ViewHolder implements V
                 .load(item.getThumbnail())
                 .into(cocktailThumbnail);
 
-        sourceDisplayName.setText(item.getInstructions());
+        sourceDisplayName.setText(item.getCocktailId());
     }
 
     @Override

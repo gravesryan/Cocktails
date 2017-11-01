@@ -56,6 +56,7 @@ public class SearchActivity extends AppCompatActivity {
                         adapter.setCocktailItemClickListener(new CocktailSearchAdapter.CocktailItemClickListener() {
                             @Override
                             public void onCocktailItemClicked(Cocktail selectedItem) {
+
                                 Intent navIntent = new Intent(SearchActivity.this, CocktailDetailActivity.class);
                                 navIntent.putExtra(CocktailDetailActivity.COCKTAIL_EXTRA_KEY, Parcels.wrap(selectedItem));
                                 startActivity(navIntent);

@@ -16,31 +16,27 @@ import java.io.IOException;
  * Created by ryanc on 10/31/2017.
  */
 
-public class CocktailSearchAsyncTask extends AsyncTask<String, String, CocktailList> {
+public class CocktailLookupAsyncTask extends AsyncTask<String, String, CocktailList> {
     private final String apiKey = "1";
     private final String baseApiUrl = "https://www.thecocktaildb.com/api/json/v1/"
             + apiKey
-            + "/filter.php?i=";
+            + "/lookup.php?i=";
+    private CocktailSearchAsyncTask.OnCocktailFetchResponse callbackListener;
 
-    private OnCocktailFetchResponse callbackListener;
-
-    public void setCallbackListener(OnCocktailFetchResponse callbackListener) {
+    public void setCallbackListener(CocktailSearchAsyncTask.OnCocktailFetchResponse callbackListener) {
         this.callbackListener = callbackListener;
     }
 
     @Override
-    protected  CocktailList doInBackground(String... strings) {
+    protected CocktailList doInBackground(String... strings) {
         String searchParams = strings[0];
         OkHttpClient client = new OkHttpClient();
 
         HttpUrl.Builder urlBuilder = HttpUrl.parse(baseApiUrl).newBuilder();
-        //urlBuilder.addQueryParameter("your_search_parameters", searchParams);
 
         String url = urlBuilder.build().toString();
 
         url += strings[0];
-
-        System.out.println(url);
 
         Request request = new Request.Builder().url(url).build();
         Response response = null;
@@ -53,7 +49,6 @@ public class CocktailSearchAsyncTask extends AsyncTask<String, String, CocktailL
         } catch (IOException e) {
             //do something
         }
-
         return null;
     }
 
