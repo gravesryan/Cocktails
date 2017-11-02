@@ -20,6 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.detail.viewcontroller.CocktailDetailActivity"></activity>
+        <activity android:name=".ui.search.viewcontroller.ResultActivity"></activity>
     </application>
 
 </manifest>

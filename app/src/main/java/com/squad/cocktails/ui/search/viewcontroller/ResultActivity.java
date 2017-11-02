@@ -16,6 +16,8 @@ import com.squad.cocktails.ui.search.adapter.CocktailSearchAdapter;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
+
 /**
  * Created by ryanc on 11/1/2017.
  */
@@ -34,6 +36,7 @@ public class ResultActivity extends AppCompatActivity {
         setContentView(R.layout.activity_result);
 
         cocktailResultList = (RecyclerView)findViewById(R.id.cocktail_result_list);
+        linearLayoutManager = new LinearLayoutManager(this);
         cocktailResultList.setLayoutManager(linearLayoutManager);
 
         searchTask = new CocktailSearchAsyncTask();
@@ -59,6 +62,7 @@ public class ResultActivity extends AppCompatActivity {
                 cocktailResultList.setAdapter(adapter);
             }
         });
-        searchTask.execute(getIntent().getStringExtra(RESULT_EXTRA_KEY));
+        ArrayList<String> results = getIntent().getStringArrayListExtra(RESULT_EXTRA_KEY);
+        searchTask.execute(results.toString());
     }
 }

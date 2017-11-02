@@ -5,13 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.squad.cocktails.ui.search.viewcontroller.SearchActivity">
+    tools:context="com.squad.cocktails.ui.search.viewcontroller.SearchActivity"
+    android:id="@+id/main_layout">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="1">
+        android:weightSum="1"
+        android:layout_marginTop="100dp"
+        android:background="@color/colorLightBlue">
 
         <EditText
             android:id="@+id/search_edit_text"
@@ -19,12 +22,20 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="Search terms here" />
-
-        <Button
-            android:id="@+id/my_search_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:text="Search" />
     </LinearLayout>
+    <Button
+        android:id="@+id/more_terms_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:padding="10dp"
+        android:text="More Search Terms" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/my_search_button"
+        android:text="Search"
+        android:layout_marginTop="50dp"
+        android:textSize="20dp"/>
 </LinearLayout>

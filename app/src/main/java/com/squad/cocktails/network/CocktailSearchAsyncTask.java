@@ -11,6 +11,7 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by ryanc on 10/31/2017.
@@ -37,8 +38,14 @@ public class CocktailSearchAsyncTask extends AsyncTask<String, String, CocktailL
         //urlBuilder.addQueryParameter("your_search_parameters", searchParams);
 
         String url = urlBuilder.build().toString();
-
-        url += strings[0];
+        String searchTerms = strings[0].substring(1, strings[0].length()-1);
+        String[] strArray = searchTerms.split(", ");
+        if (strArray.length == 1)
+            url += strArray[0];
+        else
+            for (int i = 0; i < strArray.length; i++) {
+                    url += "&" + strArray[i];
+            }
 
         System.out.println(url);
 
@@ -48,7 +55,8 @@ public class CocktailSearchAsyncTask extends AsyncTask<String, String, CocktailL
         try {
             response = client.newCall(request).execute();
             if (response != null) {
-                return CocktailParser.cocktailListFromJson(response.body().string());
+                CocktailList list = CocktailParser.cocktailListFromJson(response.body().string());
+                return list;
             }
         } catch (IOException e) {
             //do something
