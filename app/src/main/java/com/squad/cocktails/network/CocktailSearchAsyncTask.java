@@ -34,35 +34,43 @@ public class CocktailSearchAsyncTask extends AsyncTask<String, String, CocktailL
         String searchParams = strings[0];
         OkHttpClient client = new OkHttpClient();
 
-        HttpUrl.Builder urlBuilder = HttpUrl.parse(baseApiUrl).newBuilder();
+        //HttpUrl.Builder urlBuilder = HttpUrl.parse(baseApiUrl).newBuilder();
         //urlBuilder.addQueryParameter("your_search_parameters", searchParams);
 
-        String url = urlBuilder.build().toString();
+        //String url = urlBuilder.build().toString();
         String searchTerms = strings[0].substring(1, strings[0].length()-1);
-        String[] strArray = searchTerms.split(", ");
-        if (strArray.length == 1)
-            url += strArray[0];
-        else
-            for (int i = 0; i < strArray.length; i++) {
-                    url += "&" + strArray[i];
-            }
+        String[] terms = searchTerms.split(", ");
+        String[] urls = new String[terms.length];
 
-        System.out.println(url);
 
-        Request request = new Request.Builder().url(url).build();
-        Response response = null;
-
-        try {
-            response = client.newCall(request).execute();
-            if (response != null) {
-                CocktailList list = CocktailParser.cocktailListFromJson(response.body().string());
-                return list;
-            }
-        } catch (IOException e) {
-            //do something
+        for (int i = 0; i < terms.length; i++) {
+            urls[i] = baseApiUrl + terms[i];
         }
 
-        return null;
+        Request[] requests = new Request[urls.length];
+        for (int i = 0; i < requests.length; i++) {
+            requests[i] = new Request.Builder().url(urls[i]).build();
+        }
+        //Request request = new Request.Builder().url(url).build();
+
+        Response[] responses = new Response[requests.length];
+        //Response response = null;
+
+        CocktailList[] cocktailLists = new CocktailList[requests.length];
+
+        for (int i = 0; i < requests.length; i++) {
+            try {
+                responses[i] = client.newCall(requests[i]).execute();
+                if (responses[i] != null) {
+                    cocktailLists[i] = CocktailParser.cocktailListFromJson(responses[i].body().string());
+                    //return list;
+                }
+            } catch (IOException e) {
+                //do something
+            }
+        }
+        CocktailList finalList = cocktailLists[0].cocktailListIntersections(cocktailLists);
+        return finalList;
     }
 
     @Override
