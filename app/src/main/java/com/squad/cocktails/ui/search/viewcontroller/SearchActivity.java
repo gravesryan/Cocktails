@@ -3,24 +3,14 @@ package com.squad.cocktails.ui.search.viewcontroller;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.squad.cocktails.R;
-import com.squad.cocktails.model.Cocktail;
-import com.squad.cocktails.model.CocktailList;
-import com.squad.cocktails.network.CocktailLookupAsyncTask;
-import com.squad.cocktails.network.CocktailSearchAsyncTask;
-import com.squad.cocktails.ui.detail.viewcontroller.CocktailDetailActivity;
-import com.squad.cocktails.ui.search.adapter.CocktailSearchAdapter;
 
 import org.parceler.Parcels;
 
@@ -32,26 +22,28 @@ import java.util.ArrayList;
 
 public class SearchActivity extends AppCompatActivity {
     private EditText searchEditText;
-    private Button searchButton, moreButton;
-    private CocktailSearchAsyncTask task;
-    private CocktailLookupAsyncTask lookupTask;
-    private LinearLayoutManager linearLayoutManager;
+    private Button searchButton, moreButton, lessButton, newSearchButton;
     private LinearLayout layout;
-    private CocktailSearchAdapter adapter;
     private EditText newSearch;
-    private int searchId = 0;
-    private static final int NEW_SEARCH_ID = 123;
-    //private RecyclerView cocktailResultList;
+    private static final int NEW_SEARCH_ID = 1;
+    private int searchId = NEW_SEARCH_ID;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+//        Intent testIntent = new Intent(SearchActivity.this, OptionsActivity.class);
+//        startActivity(testIntent);
+
         searchEditText = (EditText)findViewById(R.id.search_edit_text);
         searchButton = (Button)findViewById(R.id.my_search_button);
         moreButton = (Button)findViewById(R.id.more_terms_button);
-        layout = (LinearLayout)findViewById(R.id.main_layout);
+        newSearchButton = (Button)findViewById(R.id.new_search_button);
+        lessButton = (Button)findViewById(R.id.less_terms_button);
+        lessButton.setEnabled(false);
+
+        layout = (LinearLayout)findViewById(R.id.edit_text_layout);
 
 
         searchButton.setOnClickListener(new View.OnClickListener() {
@@ -60,7 +52,7 @@ public class SearchActivity extends AppCompatActivity {
                 EditText input;
                 ArrayList<String> searchStrings = new ArrayList<String>();
                 searchStrings.add(searchEditText.getText().toString());
-                for (int i = 0; i < searchId; i++) {
+                for (int i = NEW_SEARCH_ID; i < searchId; i++) {
                     input = (EditText)layout.findViewWithTag(i);
                     searchStrings.add(input.getText().toString());
                 }
@@ -71,23 +63,47 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
+        lessButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!moreButton.isEnabled())
+                    moreButton.setEnabled(true);
+                layout.removeView(layout.findViewWithTag(--searchId));
+                if (searchId == NEW_SEARCH_ID) {
+                    lessButton.setAlpha(0);
+                    lessButton.setEnabled(false);
+                }
+            }
+        });
+
         moreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                layout.removeView(moreButton);
-                layout.removeView(searchButton);
+                if (lessButton.getAlpha() == 0)
+                    lessButton.setAlpha(1);
+                if (!lessButton.isEnabled())
+                    lessButton.setEnabled(true);
                 newSearch = new EditText(SearchActivity.this);
                 newSearch.setLayoutParams(new LinearLayoutCompat.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayoutCompat.LayoutParams.WRAP_CONTENT));
                 newSearch.setHint("More Search Terms");
-                newSearch.setBackgroundColor(getResources().getColor(R.color.colorLightBlue));
                 newSearch.setTag(searchId++);
                 layout.addView(newSearch);
-                layout.addView(moreButton);
-                layout.addView(searchButton);
+                if (searchId > 4) {
+                    moreButton.setEnabled(false);
+                }
+            }
+        });
 
-                //newSearch.setId(SearchActivity.NEW_SEARCH_ID);
+        newSearchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                for (int i = searchId-1; i >= NEW_SEARCH_ID; i--) {
+                    layout.removeView(layout.findViewWithTag(i));
+                }
+                searchEditText.setText("");
+                searchId = NEW_SEARCH_ID;
             }
         });
     }

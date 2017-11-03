@@ -33,17 +33,13 @@ public class CocktailSearchAsyncTask extends AsyncTask<String, String, CocktailL
     protected  CocktailList doInBackground(String... strings) {
         String searchParams = strings[0];
         OkHttpClient client = new OkHttpClient();
-
-        //HttpUrl.Builder urlBuilder = HttpUrl.parse(baseApiUrl).newBuilder();
-        //urlBuilder.addQueryParameter("your_search_parameters", searchParams);
-
-        //String url = urlBuilder.build().toString();
         String searchTerms = strings[0].substring(1, strings[0].length()-1);
         String[] terms = searchTerms.split(", ");
         String[] urls = new String[terms.length];
 
 
         for (int i = 0; i < terms.length; i++) {
+            terms[i].replaceAll(" ", "_");
             urls[i] = baseApiUrl + terms[i];
         }
 
@@ -51,10 +47,8 @@ public class CocktailSearchAsyncTask extends AsyncTask<String, String, CocktailL
         for (int i = 0; i < requests.length; i++) {
             requests[i] = new Request.Builder().url(urls[i]).build();
         }
-        //Request request = new Request.Builder().url(url).build();
 
         Response[] responses = new Response[requests.length];
-        //Response response = null;
 
         CocktailList[] cocktailLists = new CocktailList[requests.length];
 

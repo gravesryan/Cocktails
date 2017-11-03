@@ -35,18 +35,50 @@ public class CocktailList {
 
         while (listIdx < allLists.length) {
             list2 = allLists[listIdx++].getCocktails();
-//            int i = 0, j = 0;
-            for (int i = 0; i < list1.size(); i++) {
-                for (int j = 0; j < list2.size(); j++) {
-                    if (Integer.parseInt(list1.get(i).getCocktailId()) == Integer.parseInt(list2.get(j).getCocktailId()))
-                        if (!newList.contains(list2.get(j)))
-                            newList.add(list2.get(j));
+            int i = 0, j = 0;
+            while(i < list1.size() && j < list2.size()) {
+                if (list1.get(i).getName().compareTo(list2.get(j).getName()) < 0)
+                    i++;
+                else if (list1.get(i).getName().compareTo(list2.get(j).getName()) > 0)
+                    j++;
+                else {
+                    newList.add(list2.get(j++));
+                    i++;
                 }
             }
             list1 = newList;
+            if (listIdx < allLists.length)
+                newList = new ArrayList<>();
         }
-        CocktailList list = new CocktailList(newList);
         return new CocktailList(newList);
+    }
+
+    public void sortAlphabetically() {
+        quickSort(0, cocktails.size());
+    }
+
+    private void quickSort(int a, int b) {
+        int i = a, j = b;
+        String pivot = cocktails.get(a + (b-a)/2).getName();
+        while (i <= j) {
+            while (cocktails.get(i).getName().compareTo(pivot) < 0) {
+                i++;
+            }
+            while (cocktails.get(j).getName().compareTo(pivot) > 0) {
+                j--;
+            }
+            if (i <= j) {
+                Cocktail temp = cocktails.get(i);
+                cocktails.set(i, cocktails.get(j));
+                cocktails.set(j, temp);
+                i++;
+                j--;
+            }
+        }
+        if (a < j)
+            quickSort(a, j);
+        if (i < b)
+            quickSort(i, b);
     }
 
 }

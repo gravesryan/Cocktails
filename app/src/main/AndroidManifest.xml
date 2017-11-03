@@ -19,8 +19,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.detail.viewcontroller.CocktailDetailActivity"></activity>
-        <activity android:name=".ui.search.viewcontroller.ResultActivity"></activity>
+        <activity android:name=".ui.detail.viewcontroller.CocktailDetailActivity" />
+        <activity android:name=".ui.search.viewcontroller.ResultActivity" />
+        <activity
+            android:name=".ui.search.viewcontroller.OptionsActivity"
+            android:label="@string/title_activity_options"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
