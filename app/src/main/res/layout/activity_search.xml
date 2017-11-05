@@ -1,98 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.squad.cocktails.ui.search.viewcontroller.SearchActivity"
-    android:id="@+id/main_layout">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="20dp"
-        android:layout_gravity="center"
-        android:text="Cocktails"
-        android:textSize="30dp"/>
-    <LinearLayout
-        android:id="@+id/interactables_layout"
+    android:background="@android:color/white"
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
+
+    <include
+        layout="@layout/app_bar_options"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="30dp"
-        android:background="@color/colorLightBlue"
-        android:orientation="vertical">
-        <LinearLayout
-            android:id="@+id/black_border_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="22dp"
-            android:layout_marginTop="31dp"
-            android:background="@android:color/black">
-            <LinearLayout
-                android:id="@+id/edit_text_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="1dp"
-                android:background="@android:color/white"
-                android:orientation="vertical">
-                <EditText
-                    android:id="@+id/search_edit_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="Search term here" />
-            </LinearLayout>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="2">
-            <Button
-                android:id="@+id/new_search_button"
-                style="@style/Widget.AppCompat.Button.Small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginRight="100dp"
-                android:layout_marginLeft="20dp"
-                android:layout_weight="2"
-                android:elevation="0dp"
-                android:text="New Search"
-                android:textColor="@android:color/black" />
-            <Button
-                android:id="@+id/less_terms_button"
-                style="@style/Widget.AppCompat.Button.Small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:alpha="0"
-                android:layout_weight="2"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginLeft="20dp"
-                android:text="-"
-                android:textSize="20dp"/>
-            <Button
-                android:id="@+id/more_terms_button"
-                style="@style/Widget.AppCompat.Button.Small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_marginRight="20dp"
-                android:layout_weight="2"
-                android:text="+"
-                android:textSize="20dp" />
-        </LinearLayout>
-        <Button
-            android:id="@+id/my_search_button"
+        android:layout_height="match_parent" />
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@android:color/white"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header_options"
+        app:menu="@menu/activity_options_drawer" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/main_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:orientation="vertical"
+        android:theme="@style/Widget.Design.NavigationView"
+        android:visibility="visible"
+        tools:context="com.squad.cocktails.ui.search.viewcontroller.SearchActivity">
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="20dp"
             android:layout_marginTop="50dp"
-            android:text="Search"
-            android:textSize="20dp" />
+            android:background="@android:color/transparent"
+            android:textColor="@android:color/black"
+            android:text="Cocktails"
+            android:textSize="30dp" />
+
+        <LinearLayout
+            android:id="@+id/interactables_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/rounded_corner_layout"
+            android:elevation="10dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/black_border_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="22dp"
+                android:layout_marginTop="31dp"
+                android:background="@android:color/black">
+
+                <LinearLayout
+                    android:id="@+id/edit_text_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="1dp"
+                    android:background="@android:color/white"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/search_edit_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="Search term here" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/textfield_buttons_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingHorizontal="25dp"
+                android:paddingBottom="50dp"
+                android:clipToPadding="false"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <Button
+                    android:id="@+id/new_search_button"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="left"
+                    android:layout_marginRight="100dp"
+                    android:background="@drawable/rounded_corner_button"
+                    android:layout_weight="2"
+                    android:elevation="20dp"
+                    android:text="New Search"
+                    android:textColor="@android:color/black" />
+
+                <Button
+                    android:id="@+id/less_terms_button"
+                    android:background="@drawable/rounded_corner_button"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="right"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_weight="2"
+                    android:elevation="20dp"
+                    android:alpha="0"
+                    android:text="-"
+                    android:textSize="20dp" />
+
+                <Button
+                    android:id="@+id/more_terms_button"
+                    android:background="@drawable/rounded_corner_button"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="right"
+                    android:elevation="20dp"
+                    android:layout_weight="2"
+                    android:text="+"
+                    android:textSize="20dp" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/my_search_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/rounded_corner_button"
+                android:text="Search"
+                android:textSize="20dp" />
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</android.support.v4.widget.DrawerLayout>

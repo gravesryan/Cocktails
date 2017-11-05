@@ -4,19 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.squad.cocktails.ui.search.viewcontroller.OptionsActivity">
+    tools:context="com.squad.cocktails.ui.search.viewcontroller.SearchActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:background="@android:color/transparent"
+        app:elevation="0dp">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            android:background="@android:color/transparent"
+            app:titleTextColor="@android:color/black"
+            app:title=" "
+            />
 
     </android.support.design.widget.AppBarLayout>
 
