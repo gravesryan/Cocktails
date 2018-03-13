@@ -24,6 +24,7 @@ import java.util.ArrayList;
 
 public class ResultActivity extends AppCompatActivity {
     public static final String RESULT_EXTRA_KEY = "resultExtraKey";
+    public static final String SEARCH_TYPE_KEY = "searchTypeKey";
     private CocktailSearchAsyncTask searchTask;
     private CocktailLookupAsyncTask lookupTask;
     private RecyclerView cocktailResultList;
@@ -47,22 +48,29 @@ public class ResultActivity extends AppCompatActivity {
                 adapter.setCocktailItemClickListener(new CocktailSearchAdapter.CocktailItemClickListener() {
                     @Override
                     public void onCocktailItemClicked(Cocktail selectedItem) {
-                        lookupTask = new CocktailLookupAsyncTask();
-                        lookupTask.setCallbackListener(new CocktailLookupAsyncTask.OnCocktailFetchResponse() {
-                            @Override
-                            public void onCallback(Cocktail cocktail) {
-                                Intent navIntent = new Intent(ResultActivity.this, CocktailDetailActivity.class);
-                                navIntent.putExtra(CocktailDetailActivity.COCKTAIL_EXTRA_KEY, Parcels.wrap(cocktail));
-                                startActivity(navIntent);
-                            }
-                        });
-                        lookupTask.execute(selectedItem.getCocktailId());
+                        if (selectedItem.getName().compareTo("No results") != 0) {
+                            lookupTask = new CocktailLookupAsyncTask();
+                            lookupTask.setCallbackListener(new CocktailLookupAsyncTask.OnCocktailFetchResponse() {
+                                @Override
+                                public void onCallback(Cocktail cocktail) {
+                                    Intent navIntent = new Intent(ResultActivity.this, CocktailDetailActivity.class);
+                                    navIntent.putExtra(CocktailDetailActivity.COCKTAIL_EXTRA_KEY, Parcels.wrap(cocktail));
+                                    startActivity(navIntent);
+                                }
+                            });
+                            lookupTask.execute(selectedItem.getCocktailId());
+                        }
                     }
                 });
                 cocktailResultList.setAdapter(adapter);
             }
         });
         ArrayList<String> results = getIntent().getStringArrayListExtra(RESULT_EXTRA_KEY);
-        searchTask.execute(results.toString());
+        searchType searchtype = (searchType) getIntent().getSerializableExtra(SEARCH_TYPE_KEY);
+        if (searchtype == searchType.INGR) {
+            searchTask.execute(results.toString(), "INGR");
+        } else if (searchtype == searchType.NAME) {
+            searchTask.execute(results.toString(), "NAME");
+        }
     }
 }

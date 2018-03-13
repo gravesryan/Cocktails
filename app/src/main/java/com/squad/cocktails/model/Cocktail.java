@@ -11,6 +11,18 @@ import org.parceler.Parcel;
 @Parcel
 public class Cocktail {
 
+    public void setCocktailId(String cocktailId) {
+        this.cocktailId = cocktailId;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
+    }
+
     @SerializedName("idDrink")
     private String cocktailId;
 
@@ -130,6 +142,12 @@ public class Cocktail {
 
     @SerializedName("strMeasure15")
     private String measure15;
+
+    public Cocktail() {
+        name = "No results";
+        //thumbnail = "www.thecocktaildb.com/images/_none.jpg";
+        //cocktailId = "0";
+    }
 
     public String getCocktailId() { return cocktailId == null ? "" : cocktailId; }
 

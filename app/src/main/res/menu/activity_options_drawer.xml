@@ -1,19 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_camera"
-            android:title="Drink Builder" />
-        <item
-            android:id="@+id/nav_gallery"
-            android:title="Drink Browser" />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:title="Favorite Drinks" />
-        <item
-            android:id="@+id/nav_manage"
-            android:title="Tools" />
-    </group>
+        <item android:title="Search by:">
+            <menu>
+                <group android:checkableBehavior="single">
+                    <item
+                        android:icon="@drawable/ic_recipe"
+                        android:id="@+id/nav_ingredients"
+                        android:title="Ingredients"
+                        android:checked="true"/>
+                    <item
+                        android:icon="@drawable/ic_cocktail"
+                        android:id="@+id/nav_name"
+                        android:title="Name" />
+                </group>
+            </menu>
+        </item>
+
+
+    <item android:title="Extras">
+        <menu>
+            <item
+                android:icon="@drawable/ic_circular_question_mark_button"
+                android:id="@+id/nav_random"
+                android:title="Random Drink" />
+            <item
+                android:icon="@drawable/ic_star_unfilled"
+                android:id="@+id/nav_favorites"
+                android:title="Favorite Drinks" />
+            <item
+                android:icon="@drawable/ic_more"
+                android:id="@+id/nav_manage"
+                android:title="About" />
+        </menu>
+    </item>
 
 </menu>

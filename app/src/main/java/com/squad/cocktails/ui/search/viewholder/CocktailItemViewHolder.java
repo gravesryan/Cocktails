@@ -37,6 +37,7 @@ public class CocktailItemViewHolder extends RecyclerView.ViewHolder implements V
 
     public void bindView(Cocktail item) {
         cocktailName.setText(item.getName());
+
         Glide.with(this.itemView)
                 .load(item.getThumbnail())
                 .into(cocktailThumbnail);

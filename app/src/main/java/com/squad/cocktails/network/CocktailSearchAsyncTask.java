@@ -20,10 +20,10 @@ import java.util.ArrayList;
 public class CocktailSearchAsyncTask extends AsyncTask<String, String, CocktailList> {
     private final String apiKey = "1";
     private final String baseApiUrl = "https://www.thecocktaildb.com/api/json/v1/"
-            + apiKey
-            + "/filter.php?i=";
+            + apiKey;
 
     private OnCocktailFetchResponse callbackListener;
+    private String searchURL = baseApiUrl;
 
     public void setCallbackListener(OnCocktailFetchResponse callbackListener) {
         this.callbackListener = callbackListener;
@@ -32,15 +32,23 @@ public class CocktailSearchAsyncTask extends AsyncTask<String, String, CocktailL
     @Override
     protected  CocktailList doInBackground(String... strings) {
         String searchParams = strings[0];
+        String searchType = strings[1];
         OkHttpClient client = new OkHttpClient();
         String searchTerms = strings[0].substring(1, strings[0].length()-1);
         String[] terms = searchTerms.split(", ");
         String[] urls = new String[terms.length];
 
+        if (searchType.compareTo("INGR") == 0) {
+            //searchURL += "/filter.php?i=";
+            searchURL += "/filter.php?i=";
+        } else if (searchType.compareTo("NAME") == 0) {
+            searchURL += "/search.php?s=";
+        }
+
 
         for (int i = 0; i < terms.length; i++) {
             terms[i].replaceAll(" ", "_");
-            urls[i] = baseApiUrl + terms[i];
+            urls[i] = searchURL + terms[i];
         }
 
         Request[] requests = new Request[urls.length];
@@ -63,7 +71,14 @@ public class CocktailSearchAsyncTask extends AsyncTask<String, String, CocktailL
                 //do something
             }
         }
-        CocktailList finalList = cocktailLists[0].cocktailListIntersections(cocktailLists);
+        CocktailList finalList = null;
+        if (cocktailLists[0] == null) {
+            ArrayList<Cocktail> tempList = new ArrayList<Cocktail>();
+            tempList.add(new Cocktail());
+            finalList = new CocktailList(tempList);
+        } else {
+            finalList = cocktailLists[0].cocktailListIntersections(cocktailLists);
+        }
         return finalList;
     }
 
